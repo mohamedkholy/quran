@@ -21,14 +21,18 @@ public class SurahDetailRepo {
         jsonPlaceHolderApi = Api.getInstance().create(JsonPlaceHolderApi.class);
     }
 
-    public LiveData<SurahDetailResponse> getSurahDetail(String lan,int id){
+   public LiveData<SurahDetailResponse> getSurahDetail(String lan, int id){
 
-        MutableLiveData<SurahDetailResponse> data = new MutableLiveData<>();
+       MutableLiveData<SurahDetailResponse> data = new MutableLiveData<>();
+
+
         jsonPlaceHolderApi.getSurahDetail(lan, id).enqueue(new Callback<SurahDetailResponse>() {
             @Override
             public void onResponse(Call<SurahDetailResponse> call, Response<SurahDetailResponse> response) {
 
                 data.setValue(response.body());
+
+
             }
 
             @Override

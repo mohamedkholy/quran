@@ -12,12 +12,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.quranic.R;
 import com.example.quranic.model.SurahDetail;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SurahDetailAdapter extends RecyclerView.Adapter<SurahDetailAdapter.ViewHolder> {
 
     private Context context;
     private List<SurahDetail> list;
+
 
     public SurahDetailAdapter(Context context, List<SurahDetail> list) {
         this.context = context;
@@ -44,6 +46,12 @@ public class SurahDetailAdapter extends RecyclerView.Adapter<SurahDetailAdapter.
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    public void filter(ArrayList<SurahDetail> details){
+
+        list = details;
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements SurahListener {
 
             surahViewModel.getSurah().observe(this, surahResponse -> {
 
-              //  Log.d(TAG, "  onCreate: "+ Response.success("body") ) ;
+
                 for (int i = 0; i < surahResponse.getList().size(); i++) {
 
                     list.add(new Surah(surahResponse.getList().get(i).getNumber(),
@@ -73,14 +73,13 @@ public class MainActivity extends AppCompatActivity implements SurahListener {
                 if (list.size()!= 0) {
 
                     surahAdapter = new SurahAdapter(this,list, this::onSurahListener);
-
+                    recyclerView.setAdapter(surahAdapter);
 
 
 
                     RecyclerView.LayoutManager lm = new LinearLayoutManager(this);
                     recyclerView.setHasFixedSize(true);
                     recyclerView.setLayoutManager(lm);
-                    recyclerView.setAdapter(surahAdapter);
                     surahAdapter.notifyDataSetChanged();
                 }
            });

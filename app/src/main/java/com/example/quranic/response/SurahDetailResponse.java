@@ -8,10 +8,10 @@ import java.util.List;
 public class SurahDetailResponse {
 
     @SerializedName("result")
-    private static List<SurahDetail> list;
+    private  List<SurahDetail> list;
 
 
-    public static List<SurahDetail> getList() {
+    public  List<SurahDetail> getList() {
         return list;
     }
 

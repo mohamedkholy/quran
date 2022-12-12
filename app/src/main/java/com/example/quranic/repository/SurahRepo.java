@@ -37,6 +37,7 @@ public class SurahRepo {
 
             @Override
             public void onFailure(Call<SurahResponse> call, Throwable t) {
+
                 data.setValue(null);
             }
         });
