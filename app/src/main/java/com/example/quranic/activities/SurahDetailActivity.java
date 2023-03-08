@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,6 +37,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Response;
 
@@ -83,12 +85,15 @@ public class SurahDetailActivity extends AppCompatActivity {
         surahType.setText(getIntent().getStringExtra(Common.SURAH_TYPE) +" "+
                 getIntent().getStringExtra(Common.SURAH_TOTAL_AYA)+" AYA");
 
+
+
         surahTranslation.setText(getIntent().getStringExtra(Common.SURAH_TRANSLATION));
 
         recyclerView.setHasFixedSize(true);
         list = new ArrayList<>();
 
         surahTranslation(arb,no);
+
 
         try {
             listenAudio(qariAB);
@@ -104,7 +109,7 @@ public class SurahDetailActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                
+
             }
 
             @Override
@@ -146,7 +151,7 @@ public class SurahDetailActivity extends AppCompatActivity {
                             Toast.makeText(SurahDetailActivity.this, "selected", Toast.LENGTH_SHORT).show();
                         }
 
-                        if (translationButton.getText().toString().toLowerCase().trim().equals("arb")){
+                        if (translationButton.getText().toString().toLowerCase().trim().equals("arabic")){
 
                             lan = arb;
 
@@ -254,18 +259,20 @@ public class SurahDetailActivity extends AppCompatActivity {
 
     }
 
-    private void filter(String id) {
+    private void filter(String str) {
 
         ArrayList<SurahDetail> arrayList = new ArrayList<>();
 
         for (SurahDetail detail : list){
 
-            if (String.valueOf(detail.getId()).contains(id)){
+            if (String.valueOf(detail.getArabic_text()).contains(str)){
 
                 arrayList.add(detail);
             }
         }
+
         adapter.filter(arrayList);
+
 
     }
 
@@ -292,7 +299,7 @@ public class SurahDetailActivity extends AppCompatActivity {
                 }else {
 
                     mediaPlayer.start();
-                    playButton.setImageResource(R.drawable.baseline_play_circle_filled_24);
+                    playButton.setImageResource(R.drawable.baseline_pause_circle_24);
                     updateSeekBar();
 
 
@@ -360,11 +367,20 @@ public class SurahDetailActivity extends AppCompatActivity {
         }
 
      // https://download.quranicaudio.com/quran/abdul_wadood_haneef_rare/001.mp3
-        mediaPlayer.setDataSource("https://download.quranicaudio.com/quran/"+qari+"/"+str.trim()+".mp3");
-        totalTime.setText(timeToMilliSecond(mediaPlayer.getDuration()));
 
+        mediaPlayer.setDataSource("https://download.quranicaudio.com/quran/"+qari+"/"+str+".mp3");
+
+        mediaPlayer.prepareAsync();
+        mediaPlayer.setOnPreparedListener(mediaPlayer1 -> {
+        totalTime.setText(timeToMilliSecond(mediaPlayer1.getDuration()));
+
+       });
 
     }
+
+
+
+
 
     private Runnable updater = new Runnable() {
         @Override
